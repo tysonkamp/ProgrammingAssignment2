@@ -22,7 +22,7 @@ makeCacheMatrix <- function(x = matrix()) {
 ## actual inverse once and subsequently can refer to the saved value.
 ##
 ## Sample usage: second call returns cached value
-##    >myMat <- matrix(c(1,0,0,1),2,2)
+##    >myMat <- matrix(c(1,1,1,2,0,2,2,1,1),3,3)
 ##    >mcm <- makeCacheMatrix(myMat)
 ##    >cacheSolve(mcm)
 ##    >cacheSolve(mcm)
