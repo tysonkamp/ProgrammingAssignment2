@@ -1,7 +1,6 @@
-## Put comments here that give an overall description of what your
-## functions do
-
-## Write a short comment describing this function
+## This is a helper function that encapsulates a matrix and a function to 
+## perform on that matrix.  It stores the result of the function "F", which 
+## can be null, and is null, until set by a caller.
 
 makeCacheMatrix <- function(x = matrix()) {
     m <- NULL
@@ -10,25 +9,33 @@ makeCacheMatrix <- function(x = matrix()) {
         m <<- NULL
     }
     get <- function() x
-    setInv <- function(solve) m <<- solve
-    getInv <- function() m
+    setF <- function(f) m <<- f
+    getF <- function() m
     list(set = set, get = get,
-         setInv = setInv,
-         getInv = getInv)
+         setF = setF,
+         getF = getF)
 }
 
 
-## Write a short comment describing this function
-
+## cacehSolve uses the matrix cache helper function to store the 
+## result of the matrix inversion.  This way, we only have to calulate the
+## actual inverse once and subsequently can refer to the saved value.
+##
+## Sample usage: second call returns cached value
+##    >myMat <- matrix(c(1,0,0,1),2,2)
+##    >mcm <- makeCacheMatrix(myMat)
+##    >cacheSolve(mcm)
+##    >cacheSolve(mcm)
+##
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-    m <- x$getInv()
+    m <- x$getF()
     if(!is.null(m)) {
         message("Getting cached matrix inverse")
         return(m)
     }
     data <- x$get()
     m <- solve(data, ...)
-    x$setInv(m)
+    x$setF(m)
     m
 }
